@@ -138,20 +138,6 @@ namespace AzureSearchDNSTesting
             return results.Results.Select<SearchResult<Product>, Product>(p => p.Document);
         }
 
-        [FunctionName("RefleshDNS")]
-        public static async Task<IActionResult> Reflesh(
-            [HttpTrigger(AuthorizationLevel.Function, "get", "post", Route = null)]
-            HttpRequest req,
-            ILogger log)
-        {
-            // This doesn't work for .Net Core
-            //ServicePointManager.FindServicePoint(new Uri("https://devopshackfestfuji.simplearchitect.club")).ConnectionLeaseTimeout =
-            //    (int) TimeSpan.FromMinutes(1).TotalMilliseconds;
-            //ServicePointManager.DnsRefreshTimeout = (int) TimeSpan.FromMinutes(1).TotalMilliseconds;
-
-            return new OkObjectResult("DNS cache has been cleared.");
-        }
-
         public class KeepAliveDisposalHttpClientHandler : HttpClientHandler
         {
             protected async override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
