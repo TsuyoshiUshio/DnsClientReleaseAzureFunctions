@@ -1,23 +1,20 @@
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Azure.Search;
+using Microsoft.Azure.Search.Models;
+using Microsoft.Azure.WebJobs;
+using Microsoft.Azure.WebJobs.Extensions.Http;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.Tracing;
-using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.Azure.WebJobs;
-using Microsoft.Azure.WebJobs.Extensions.Http;
-using Microsoft.AspNetCore.Http;
-using Microsoft.Azure.Search;
-using Microsoft.Azure.Search.Models;
-using Microsoft.Extensions.Logging;
-using Newtonsoft.Json;
 
 namespace AzureSearchDNSTesting
 {
@@ -100,7 +97,8 @@ namespace AzureSearchDNSTesting
             //    return true;
             //};
             var handler = new KeepAliveAvailableHttpClientHandler();
-            
+
+
             handler.ServerCertificateCustomValidationCallback = (sender, certificate, chain, sslPolicyErrors) =>
             {
                 return true;
@@ -138,16 +136,5 @@ namespace AzureSearchDNSTesting
             return results.Results.Select<SearchResult<Product>, Product>(p => p.Document);
         }
 
-        public class KeepAliveDisposalHttpClientHandler : HttpClientHandler
-        {
-            protected async override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken cancellationToken)
-            {
-                if (IsClearKeepAlive)
-                {
-                    request.Headers.Add("Connection", "close");
-                }
-                return await base.SendAsync(request, cancellationToken);
-            }
-        }
     }
 }
