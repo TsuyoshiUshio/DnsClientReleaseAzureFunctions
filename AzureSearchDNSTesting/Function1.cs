@@ -92,10 +92,6 @@ namespace AzureSearchDNSTesting
 
             string searchServiceName = Environment.GetEnvironmentVariable("SearchServiceName");
             string adminApiKey = Environment.GetEnvironmentVariable("SearchServiceAdminApiKey");
-            //ServicePointManager.ServerCertificateValidationCallback = (sender, certificate, chain, sslPolicyErrors) =>
-            //{
-            //    return true;
-            //};
             var handler = new KeepAliveAvailableHttpClientHandler();
 
 
